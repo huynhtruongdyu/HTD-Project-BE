@@ -6,17 +6,17 @@
 
     public enum Priority
     {
-        Low,
-        Medium,
-        High
+        Low = 0,
+        Medium = 1,
+        High = 2
     }
 
     public enum Status
     {
-        Todo,
-        NextUp,
-        InProgress,
-        Pending,
-        Done
+        Todo = 0,
+        NextUp = 1,
+        InProgress = 2,
+        Pending = 3,
+        Done = 4
     }
 }

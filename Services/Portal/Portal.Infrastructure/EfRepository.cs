@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace Portal.Infrastructure
 {
-    public interface IEfRepository<T> where T : BaseEntity
+    public interface IRepository<T> where T : BaseEntity
     {
         IEnumerable<T> GetAll();
 
@@ -20,7 +20,7 @@ namespace Portal.Infrastructure
         void Delete(T entity);
     }
 
-    public class EfRepository<T> : IEfRepository<T> where T : BaseEntity
+    public class EfRepository<T> : IRepository<T> where T : BaseEntity
     {
         protected readonly PortalDbContext Context;
         protected readonly DbSet<T> DbSet;
