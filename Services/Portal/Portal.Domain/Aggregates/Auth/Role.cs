@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Portal.Domain.Aggregates.Auth
 {
-    public class Role : IdentityRole<Guid>
+    public class Role : IdentityRole<Guid>, IAggregateRoot
     {
         public string Description { get; set; }
     }

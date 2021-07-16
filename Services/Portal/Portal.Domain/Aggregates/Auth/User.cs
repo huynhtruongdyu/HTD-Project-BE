@@ -3,7 +3,7 @@ using System;
 
 namespace Portal.Domain.Aggregates.Auth
 {
-    public class User : IdentityUser<Guid>
+    public class User : IdentityUser<Guid>, IAggregateRoot
     {
         public string Firstname { get; set; }
         public string Lastname { get; set; }
