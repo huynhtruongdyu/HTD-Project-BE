@@ -16,6 +16,14 @@ namespace Portal.Infrastructure.EF
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+            foreach (var entityType in modelBuilder.Model.GetEntityTypes())
+            {
+                var tableName = entityType.GetTableName();
+                if (tableName.StartsWith("AspNet"))
+                {
+                    entityType.SetTableName(tableName.Substring(6));
+                }
+            }
 
             //TodoApp
             modelBuilder.ApplyConfiguration(new TaskTypeConfiguration());

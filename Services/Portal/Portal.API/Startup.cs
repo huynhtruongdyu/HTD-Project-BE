@@ -31,11 +31,13 @@ namespace Portal.API
                 c.AddPolicy("AllowOrigin", option => option.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             });
 
-            //Add DbContext
+            // Add DbContext
             services.AddDbContext<PortalDbContext>(options => options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
-            //services.AddScoped<IPortalDbContext>(provider => provider.GetService<PortalDbContext>());
+
+            services.AddScoped<DbContext>(provider => provider.GetService<PortalDbContext>());
             services.AddScoped<DbContext, PortalDbContext>();
             services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
+            services.AddScoped(typeof(IService), typeof(Service));
             services.AddScoped(typeof(IUnitOfWork), typeof(UnitOfWork));
 
             #region Configure for Repositories
@@ -57,16 +59,16 @@ namespace Portal.API
 
             #region Configure for Serivces
 
-            //var allServicesInterfaces = Assembly.GetAssembly(typeof(IService))
-            //    ?.GetTypes().Where(t => t.Name.EndsWith("Service")).ToList();
-            //var allServiceImplements = Assembly.GetAssembly(typeof(Service))
-            //    ?.GetTypes().Where(t => t.Name.EndsWith("Service")).ToList();
+            var allServicesInterfaces = Assembly.GetAssembly(typeof(IService))
+                ?.GetTypes().Where(t => t.Name.EndsWith("Service")).ToList();
+            var allServiceImplements = Assembly.GetAssembly(typeof(Service))
+                ?.GetTypes().Where(t => t.Name.EndsWith("Service")).ToList();
 
-            //foreach (var serviceType in allServicesInterfaces.Where(t => t.IsInterface))
-            //{
-            //    var implement = allServiceImplements.FirstOrDefault(c => c.IsClass && serviceType.Name.Substring(1) == c.Name);
-            //    if (implement != null) services.AddScoped(serviceType, implement);
-            //}
+            foreach (var serviceType in allServicesInterfaces.Where(t => t.IsInterface))
+            {
+                var implement = allServiceImplements.FirstOrDefault(c => c.IsClass && serviceType.Name.Substring(1) == c.Name);
+                if (implement != null) services.AddScoped(serviceType, implement);
+            }
 
             //services.AddScoped<IWorkContext, WorkContext>();
 
